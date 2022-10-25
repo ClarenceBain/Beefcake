@@ -192,14 +192,14 @@ LocalPlayer.SetPosition(100, -50);
 #### Task Library
 - task.GetCFunctionPointer(c_function: function)
 ```lua
-print(string.formate("%x", task.GetCFunctionPointer(EntityLoad)));
+print(string.format("%x", task.GetCFunctionPointer(EntityLoad)));
 
 -- prints the memory address of the noita function EntityLoad
 -- this WILL NOT work with lua functions, only functions made in C
 ```
 - task.GetState()
 ```lua
-print(string.formate("%x", task.GetState()));
+print(string.format("%x", task.GetState()));
 
 -- prints the memory address of current lua state
 ```
