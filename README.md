@@ -1,127 +1,214 @@
+# Beefcake
 
-<h1 align="center">
-  <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.png" alt="Markdownify" width="200"></a>
-  <br>
-  Markdownify
-  <br>
-</h1>
+Beefcake is an attempt to expand Noitas modding API to make it more user-friendly and to remove many
+of the restrictions imposed by the original.
 
-<h4 align="center">A minimal Markdown Editor desktop app built on top of <a href="http://electron.atom.io" target="_blank">Electron</a>.</h4>
+Beefcake uses Noitas existing modloader (which means it supports ALL existing mods) and includes plenty
+of custom functions to make coding less bloated and easier to read.
 
-<p align="center">
-  <a href="https://badge.fury.io/js/electron-markdownify">
-    <img src="https://badge.fury.io/js/electron-markdownify.svg"
-         alt="Gitter">
-  </a>
-  <a href="https://gitter.im/amitmerchant1990/electron-markdownify"><img src="https://badges.gitter.im/amitmerchant1990/electron-markdownify.svg"></a>
-  <a href="https://saythanks.io/to/bullredeyes@gmail.com">
-      <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
-  </a>
-  <a href="https://www.paypal.me/AmitMerchant">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
-  </a>
-</p>
+## Setting up
 
-<p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
-</p>
+### Prerequisites
 
-![screenshot](https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.gif)
+As of right now Beefcake has only been tested with the Steam version of Noita, it is likely it will
+not work with other versions.
+- [Noita on Steam](https://store.steampowered.com/app/881100/Noita/)
 
-## Key Features
+For the average users (people wanting to mod, or use mods) setting up Beefcake is pretty easy, and replaces no files.
 
-* LivePreview - Make changes, See changes
-  - Instantly see what your Markdown documents look like in HTML as you create them.
-* Sync Scrolling
-  - While you type, LivePreview will automatically scroll to the current location you're editing.
-* GitHub Flavored Markdown  
-* Syntax highlighting
-* [KaTeX](https://khan.github.io/KaTeX/) Support
-* Dark/Light mode
-* Toolbar for basic Markdown formatting
-* Supports multiple cursors
-* Save the Markdown preview as PDF
-* Emoji support in preview :tada:
-* App will keep alive in tray for quick usage
-* Full screen mode
-  - Write distraction free.
-* Cross platform
-  - Windows, macOS and Linux ready.
+1. Navigate to Noitas directory
 
-## How To Use
+![](https://github.com/ClarenceBain/Beefcake/blob/main/exampleimg/example1.png)
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+2. Create a new folder named "beefcake" inside of Noitas directory
 
-```bash
-# Clone this repository
-$ git clone https://github.com/amitmerchant1990/electron-markdownify
+![](https://github.com/ClarenceBain/Beefcake/blob/main/exampleimg/example2.png)
 
-# Go into the repository
-$ cd electron-markdownify
+3. Download and extract both Beefcake.exe (the loader) and beefer.dll (the main api) into the folder you created in step 2
 
-# Install dependencies
-$ npm install
+![](https://github.com/ClarenceBain/Beefcake/blob/main/exampleimg/example3.png)
 
-# Run the app
-$ npm start
+4. Open Steam and navigate to Noitas properties
+
+![](https://github.com/ClarenceBain/Beefcake/blob/main/exampleimg/example4.png)
+
+5. Under general and in the launch options box put (or whatever path corresponds to the location of Beefcake.exe and beefer.dll):
+```
+"C:\Program Files (x86)\Steam\steamapps\common\Noita\beefcake\Beefcake.exe" %command%
 ```
 
-> **Note**
-> If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
+![](https://github.com/ClarenceBain/Beefcake/blob/main/exampleimg/example5.png)
 
+6. Run Noita from Steam, and once the console is open enter the path to Noita (one time thing)
 
-## Download
+![](https://github.com/ClarenceBain/Beefcake/blob/main/exampleimg/example6.png)
 
-You can [download](https://github.com/amitmerchant1990/electron-markdownify/releases/tag/v1.2.0) the latest installable version of Markdownify for Windows, macOS and Linux.
+7. Enjoy modding!
 
-## Emailware
-
-Markdownify is an [emailware](https://en.wiktionary.org/wiki/emailware). Meaning, if you liked using this app or it has helped you in any way, I'd like you send me an email at <bullredeyes@gmail.com> about anything you'd want to say about this software. I'd really appreciate it!
-
-## Credits
-
-This software uses the following open source packages:
-
-- [Electron](http://electron.atom.io/)
-- [Node.js](https://nodejs.org/)
-- [Marked - a markdown parser](https://github.com/chjj/marked)
-- [showdown](http://showdownjs.github.io/showdown/)
-- [CodeMirror](http://codemirror.net/)
-- Emojis are taken from [here](https://github.com/arvida/emoji-cheat-sheet.com)
-- [highlight.js](https://highlightjs.org/)
-
-## Related
-
-[markdownify-web](https://github.com/amitmerchant1990/markdownify-web) - Web version of Markdownify
-
-## Support
-
-<a href="https://www.buymeacoffee.com/5Zn8Xh3l9" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
-
-<p>Or</p> 
-
-<a href="https://www.patreon.com/amitmerchant">
-	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
-## You may also like...
-
-- [Pomolectron](https://github.com/amitmerchant1990/pomolectron) - A pomodoro app
-- [Correo](https://github.com/amitmerchant1990/correo) - A menubar/taskbar Gmail App for Windows and macOS
+Once the console is open, you may notice it says "Waiting for MAPITable to initiate.." this is normal and will continue once a game is started!
 
 ## License
 
-MIT
+This project is licensed under the [MIT License](LICENSE.md)
 
----
+As a developer you get control over:
+- Commercial use
+- Modification
+- Distribution
+- Private use 
 
-> [amitmerchant.com](https://www.amitmerchant.com) &nbsp;&middot;&nbsp;
-> GitHub [@amitmerchant1990](https://github.com/amitmerchant1990) &nbsp;&middot;&nbsp;
-> Twitter [@amit_merchant](https://twitter.com/amit_merchant)
+Find out more information about the [MIT License](LICENSE.md)
 
+## Acknowledgments
+
+  - The developers of [Noita](https://store.steampowered.com/app/881100/Noita/), [Nolla Games](https://nollagames.com/)
+  - The developer of [libmem](https://github.com/rdbo/libmem), [rdbo](https://github.com/rdbo)
+  - The developer of [color-console](https://github.com/aafulei/color-console), [aafulei](https://github.com/aafulei)
+ 
+## Documentation
+
+#### Beefcake Globals
+- AddSpellToWand(wand_entity: int, spell_id: string, is_always_cast: boolean)
+```lua
+local wand = CreateWand("EXAMPLE_WAND", "data/items_gfx/wands/wand_0007.png", 250, 1000, 0.45, 0.2, 1, 3);
+AddSpellToWand(wand, "BLACK_HOLE", true);
+```
+- CreateWand(name: string, wand_image_path: string, mana_charge: number, mana_max: number, reload_speed: number, recoil: number, spell_per_shot: int, capacity: int)
+```lua
+local wand = CreateWand("EXAMPLE_WAND", "data/items_gfx/wands/wand_0007.png", 250, 1000, 0.45, 0.2, 1, 3);
+
+-- if mana_charge is zero or nil it defaults to 100
+-- if mana_max is zero or nil it defaults to 75
+```
+- ExecuteThroughLoader(script: string)
+```lua
+ExecuteThroughLoader("local x,y = LocalPlayer.GetPosition(); EntityLoad('data/entities/flute.xml',x,y);");
+
+-- its recommended this function is used ONLY in the Beefcake Console, it executes code through a LuaComponent avoiding many visual and memory bugs.
+-- using it in mod files may have unwanted side effects
+```
+- ForceSeed(seed: int)
+```lua
+function OnModPreInit()
+ForceSeed(123456789);
+end;
+
+-- its recommended this function is used ONLY in the OnModPreInit() function of the mods init.lua file
+-- using it in other functions or files may have unwanted side effects, or likely to not work at all
+```
+- SetWorldTime(time: double)
+```lua
+SetWorldTime(1.0);   -- day
+
+-- time ranges from 0.0 to 1.0
+```
+- SpawnFlask(material_id: string, x_pos: number, y_pos: number, amount: number)
+```lua
+local x,y = LocalPlayer.GetPosition();
+
+SpawnFlask("lava", x, y, 1000);
+
+-- Flasks full value is 1000, 500 is halfway, etc..
+-- Values higher than 1000 work and give the shooting more "pressure"
+```
+- SpawnPerk(perk_id: string, x_pos: number, y_pos: number)
+```lua
+local x,y = LocalPlayer.GetPosition();
+
+SpawnPerk("CRITICAL_HIT", x, y);
+```
+- SpawnSpell(spell_id: string, x_pos: number, y_pos: number)
+```lua
+local x,y = LocalPlayer.GetPosition();
+
+SpawnSpell("BLACK_HOLE", x, y);
+```
+
+#### LocalPlayer Library
+- LocalPlayer.AddPerk(perk_id: string)
+```lua
+LocalPlayer.AddPerk("CRITICAL_HIT");
+
+-- unlike SpawnPerk, LocalPlayer.AddPerk gives the perk directly to the player
+```
+- LocalPlayer.GetGold()
+```lua
+local gold = LocalPlayer.GetGold();
+
+-- returns the players gold
+```
+- LocalPlayer.GetHealth()
+```lua
+local health = LocalPlayer.GetHealth();
+
+-- returns the players health
+```
+- LocalPlayer.GetID()
+```lua
+local player = LocalPlayer.GetID();
+
+-- returns the players entity id
+```
+- LocalPlayer.GetMaxHealth()
+```lua
+local max_health = LocalPlayer.GetMaxHealth();
+
+-- returns the players max health
+```
+- LocalPlayer.GetPosition()
+```lua
+local x,y = LocalPlayer.GetPosition();
+
+-- returns the players x and y position
+```
+- LocalPlayer.SetGold(gold: int)
+```lua
+LocalPlayer.SetGold(inf);
+```
+- LocalPlayer.SetHealth(health: number)
+```lua
+LocalPlayer.SetHealth(100);
+LocalPlayer.SetMaxHealth(1000);
+LocalPlayer.SetHealth(1000);
+
+-- health can only be as high as its max healh
+-- if the players max health is 100, setting health to 1000 will not work unless setting max health before
+```
+- LocalPlayer.SetIsIgnored(is_ignored: boolean)
+```lua
+LocalPlayer.SetIsIgnored(true);
+
+-- this determines if enemies will ignore the player or not
+```
+- LocalPlayer.SetMaxHealth(health: number)
+```lua
+LocalPlayer.SetMaxHealth(1000);
+```
+- LocalPlayer.SetPosition(x_pos: int, y_pos: int)
+```lua
+LocalPlayer.SetPosition(100, -50);
+```
+
+#### Task Library
+- task.GetCFunctionPointer(c_function: function)
+```lua
+print(string.formate("%x", task.GetCFunctionPointer(EntityLoad)));
+
+-- prints the memory address of the noita function EntityLoad
+-- this WILL NOT work with lua functions, only functions made in C
+```
+- task.GetState()
+```lua
+print(string.formate("%x", task.GetState()));
+
+-- prints the memory address of current lua state
+```
+- task.ReadMemory(address: int, type: int)
+```lua
+local current_seed = task.ReadMemory(0x00FEE850, 0);
+local build_text = task.ReadMemory(0x00E1C3B8, 1);
+
+-- current valid types:
+-- 0 = int
+-- 1 = string
+```
