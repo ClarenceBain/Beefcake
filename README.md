@@ -96,6 +96,23 @@ end;
 -- its recommended this function is used ONLY in the OnModPreInit() function of the mods init.lua file
 -- using it in other functions or files may have unwanted side effects, or likely to not work at all
 ```
+- GenomeGetHerdId(entity_id: int)
+```lua
+local player = LocalPlayer.GetID();
+local herd_id = GenomeGetHerdId(player);
+
+if herd_id == "player" then
+  LocalPlayer.SetIsIgnored(true);
+end;
+```
+- inf
+```lua
+LocalPlayer.SetGold(inf);
+LocalPlayer.SetMaxHealth(inf);
+LocalPlayer.SetHealth(inf);
+
+-- a global variable that is 1:1 with noitas "infinite" value, showing as an infinite symbol
+```
 - SetWorldTime(time: double)
 ```lua
 SetWorldTime(1.0);   -- day
@@ -148,6 +165,16 @@ local health = LocalPlayer.GetHealth();
 local player = LocalPlayer.GetID();
 
 -- returns the players entity id
+```
+- LocalPlayer.GetIsIgnored()
+```lua
+if LocalPlayer.GetIsIgnored() then
+  print("Enemies are ignoring the player!");
+else
+  print("Enemies are not ignoring the player!");
+end;
+
+-- returns if the player is currently ignored by enemies or not
 ```
 - LocalPlayer.GetMaxHealth()
 ```lua
