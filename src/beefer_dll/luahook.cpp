@@ -117,6 +117,7 @@ mem::byte_t* to_array(std::vector<mem::byte_t> aob)
 
 void luahook::luahook_init(){
 	luahook::noita::first = NULL;
+	// normally wouldn't hardcode a base, but it never changes so
 	luahook::noita::noitabase = 0x00400000;
 	luahook::noita::security_cookie = luahook::noita::noitabase + 0xB3A000;	
 	logh("Security Cookie found at: ", luahook::noita::security_cookie);
@@ -161,6 +162,7 @@ void luahook::luahook_init(){
 	luahook::lua::tonumber_a = luahook::lua::luabase + 0x7E30;
 	luahook::lua::unref_a = luahook::lua::luabase + 0x430F0;
 	luahook::lua::xmove_a = luahook::lua::luabase + 0x7FF0;
+	// these counts are hardcoded, only useful for debugging
 	logd("Functions found: ", 30);											
 	logh("Locating restricted lua libraries..");
 	luahook::lua::bit_a = luahook::lua::luabase + 0x44410;
@@ -169,6 +171,7 @@ void luahook::luahook_init(){
 	luahook::lua::io_a = luahook::lua::luabase + 0x47A80;
 	luahook::lua::jit_a = luahook::lua::luabase + 0x48C10;
 	luahook::lua::os_a = luahook::lua::luabase + 0x49980;
+	// these counts are hardcoded, only useful for debugging
 	logd("Libraries found: ", 6);
 	logh("Setting up functions..");
 	luahook::lua::lua_call = (luahook::lua::lua51_call)luahook::lua::call_a;
@@ -203,10 +206,14 @@ void luahook::luahook_init(){
 	luahook::lua::luaopen_os = (luahook::lua::lib51_os)luahook::lua::os_a;
 	Sleep(1000);
 	logh("Hooking Noita Functions Library..");
+	// hook the original library function with nlib_hook, takes 9 bytes
+	// in a lot of cases you would normally restore the detour, in this case the function is called during every new lua state from mods, noita, luacomponents, etc..
 	luahook::noita::lib = (luahook::noita::nlib)mem::in::detour_trampoline((mem::voidptr_t)luahook::noita::lib, (mem::voidptr_t)luahook::noita::nlib_hook, 9, mem::MEM_DT_M1);
 	logh("Noita Functions Library hooked at: ", luahook::noita::noitalibrary_init, " with ", luahook::noita::nlib_hook);
 	int p = 0;
 LOOP:
+	// lets get the pointer address of MAPITable
+	// mostly initiated on game load, sometimes before
 	uintptr_t address = readPTR(luahook::noita::noitabase + 0xBEE860);
 	if (address == NULL)
 	{
@@ -221,8 +228,11 @@ LOOP:
 		logh("MAPITable found: ", address);
 		logh("IsModded variable found: ", address + 0x00000120);
 		logh("Changing mod status..");
+		// once mods are enabled, mod status is set every frame
+		// we need to disable the every frame check, then change our status to 0 (unmodded)
 		writeAOB(luahook::noita::mapi_check, to_array({ 0x71, 0x11 }));
 		writeINT(address + 0x00000120, 0);
+		// another hardcoded count, only really useful for debugging
 		logd("Mod status changed, bytes patched: ", 6);
 	}
 }
@@ -396,6 +406,64 @@ int luahook::beefcake::GetPlayerGold(lua_State* L) {
 	return 1;
 }
 
+int luahook::beefcake::GenomeGetHerdId(lua_State* L) {
+	if (luahook::lua::lua_gettop(L) != 1)
+		return 0;
+	int entity = luahook::lua::lua_tointeger(L, 1);
+	luahook::lua::lua_getfield(L, LUA_GLOBALSINDEX, "EntityGetFirstComponent");
+	luahook::lua::lua_pushinteger(L, entity);
+	luahook::lua::lua_pushstring(L, "GenomeDataComponent");
+	if (luahook::lua::lua_pcall(L, 2, 1, 0) != 0)
+		return 0;
+	int gdc = luahook::lua::lua_tointeger(L, -1);
+	luahook::lua::lua_getfield(L, LUA_GLOBALSINDEX, "ComponentGetValue2");
+	luahook::lua::lua_pushinteger(L, gdc);
+	luahook::lua::lua_pushstring(L, "herd_id");
+	if (luahook::lua::lua_pcall(L, 2, 1, 0) != 0)
+		return 0;
+	int id = luahook::lua::lua_tointeger(L, -1);
+	luahook::lua::lua_getfield(L, LUA_GLOBALSINDEX, "HerdIdToString");
+	luahook::lua::lua_pushinteger(L, id);
+	if (luahook::lua::lua_pcall(L, 1, 1, 0) != 0)
+		return 0;
+	const char* herd_id = luahook::lua::lua_tolstring(L, -1, NULL);
+	luahook::lua::lua_pushstring(L, herd_id);
+	return 1;
+}
+
+int luahook::beefcake::GetIgnored(lua_State* L) {
+	luahook::lua::lua_getfield(L, LUA_GLOBALSINDEX, "EntityGetWithTag");
+	luahook::lua::lua_pushstring(L, "player_unit");
+	if (luahook::lua::lua_pcall(L, 1, 1, 0) != 0)
+		return 0;
+	luahook::lua::lua_rawgeti(L, -1, 1);
+	int player = (int)luahook::lua::lua_tonumber(L, -1);
+	luahook::lua::lua_getfield(L, LUA_GLOBALSINDEX, "EntityGetFirstComponent");
+	luahook::lua::lua_pushinteger(L, player);
+	luahook::lua::lua_pushstring(L, "GenomeDataComponent");
+	if (luahook::lua::lua_pcall(L, 2, 1, 0) != 0)
+		return 0;
+	int gdc = luahook::lua::lua_tointeger(L, -1);
+	luahook::lua::lua_getfield(L, LUA_GLOBALSINDEX, "ComponentGetValue2");
+	luahook::lua::lua_pushinteger(L, gdc);
+	luahook::lua::lua_pushstring(L, "herd_id");
+	if (luahook::lua::lua_pcall(L, 2, 1, 0) != 0)
+		return 0;
+	const char* herd_id = luahook::lua::lua_tolstring(L, -1, NULL);
+	if (strcmp(herd_id, "healer"))
+	{
+		luahook::lua::lua_pushboolean(L, 1);
+		return 1;
+	}
+	else if(strcmp(herd_id, "player")) {
+		luahook::lua::lua_pushboolean(L, 0);
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
 int luahook::beefcake::SetPlayerPos(lua_State* L) {
 	if (luahook::lua::lua_gettop(L) != 2)
 		return 0;
@@ -508,6 +576,8 @@ int luahook::beefcake::SetIgnored(lua_State* L) {
 		return 0;
 	luahook::lua::lua_rawgeti(L, -1, 1);
 	int player = (int)luahook::lua::lua_tonumber(L, -1);
+	// GenomeSetHerdId is "deprecated", but not really since the game has been untouched for a year or so now
+	// if for some reason they do finally remove it, i'll just reinstate it
 	luahook::lua::lua_getfield(L, LUA_GLOBALSINDEX, "GenomeSetHerdId");
 	luahook::lua::lua_pushinteger(L, player);
 	if (b00l >= 1)
@@ -931,6 +1001,7 @@ void __fastcall luahook::noita::nlib_hook(lua_State* L)
 	const struct luahook::lua::luaL_Reg LocalPlayerFuncs[] = {
 			{"AddPerk", luahook::beefcake::AddPerk},
 			{"GetID", luahook::beefcake::GetPlayer},
+			{"GetIsIgnored", luahook::beefcake::GetIgnored},
 			{"GetPosition", luahook::beefcake::GetPlayerPos},
 			{"GetHealth", luahook::beefcake::GetPlayerHealth},
 			{"GetMaxHealth", luahook::beefcake::GetPlayerHealthM},
@@ -964,6 +1035,7 @@ void __fastcall luahook::noita::nlib_hook(lua_State* L)
 	lua_register(L, "SpawnFlask", luahook::beefcake::SpawnFlask);				
 	lua_register(L, "print", luahook::beefcake::Print);	
 	lua_register(L, "ForceSeed", luahook::beefcake::ForceSeed);
+	lua_register(L, "GenomeGetHerdId", luahook::beefcake::GenomeGetHerdId);
 	lua_registerV(L, luahook::lua::lua_pushnumber, "inf", 2147483647);
 	// noita adds restrictions, bypass those by loading standard libraries
 	luahook::lua::luaopen_bit(L);

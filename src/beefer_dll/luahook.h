@@ -183,6 +183,7 @@ public:
 		static int CreateWand(lua_State* L);
 		static int ExecuteThroughLoader(lua_State* L);
 		static int ForceSeed(lua_State* L);
+		static int GenomeGetHerdId(lua_State* L);
 		static int Print(lua_State* L);
 		static int SetWorldTime(lua_State* L);
 		static int SpawnFlask(lua_State* L);
@@ -193,11 +194,12 @@ public:
 		static int GetCFunctionPointer(lua_State* L);
 		static int GetState(lua_State* L);
 		static int ReadMemory(lua_State* L);
-		static int Pocket(lua_State* L);
+		//static int Pocket(lua_State* L);
 
 
 		// LocalPlayer library
 		static int AddPerk(lua_State* L);
+		static int GetIgnored(lua_State* L);
 		static int GetPlayer(lua_State* L);
 		static int GetPlayerGold(lua_State* L);
 		static int GetPlayerHealth(lua_State* L);
